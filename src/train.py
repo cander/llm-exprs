@@ -71,6 +71,9 @@ def train(data_path, max_steps=5000, batch_size=64,
           f"{sum(p.numel() for p in model.parameters()) / 1e6:.1f}M params")
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=0.01)
+    def checkpoint_name(step):
+        return f"checkpoint-{n_layer}-{n_head}-{n_embd}_{step}.pt"
+    
 
     max_lr = 1e-3
     min_lr = max_lr * 0.1
@@ -130,7 +133,7 @@ def train(data_path, max_steps=5000, batch_size=64,
                 "config": config,
                 "stoi": stoi,
                 "itos": itos,
-            }, f"checkpoint_{step}.pt")
+            }, checkpoint_name(step))
 
     # --- save final checkpoint and loss log ---
     torch.save({
@@ -139,7 +142,7 @@ def train(data_path, max_steps=5000, batch_size=64,
         "config": config,
         "stoi": stoi,
         "itos": itos,
-    }, "checkpoint_final.pt")
+    }, checkpoint_name("final"))
 
     with open("loss_log.json", "w") as f:
         json.dump(loss_log, f)
