@@ -1,3 +1,5 @@
+# From https://github.com/angelos-p/llm-from-scratch/blob/main/docs/02-the-transformer.md
+
 from dataclasses import dataclass
 
 @dataclass

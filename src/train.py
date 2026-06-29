@@ -1,3 +1,4 @@
+# From https://github.com/angelos-p/llm-from-scratch/blob/main/docs/03-training-loop.md
 
 import torch
 
@@ -147,4 +148,26 @@ def train(data_path, max_steps=5000, batch_size=64,
 
 
 if __name__ == "__main__":
-    train("../data/shakespeare.txt")
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Train GPT model from input file")
+    parser.add_argument("--data_path", help="Path to training data")
+    parser.add_argument("--max_steps", type=int, default=5000,  help="Maximum number of training steps")
+    parser.add_argument("--batch_size", type=int, default=64,  help="Training batch size")
+    parser.add_argument("--layers", type=int, default=6,  help="Number of layers")
+    parser.add_argument("--heads", type=int, default=6,   help="Number of heads")
+    parser.add_argument("--embeds", type=int, default=384, help="Embedding dimension")
+    parser.add_argument("--block_size", type=int, default=256, help="Training block size")
+    args = parser.parse_args()
+
+    print(f"Model: {args.layers}L/{args.heads}H/{args.embeds}D, "
+          f"Steps: {args.max_steps}, Batch size: {args.batch_size}, "
+          f"Block size: {args.block_size}\n")
+
+    train(args.data_path,
+          args.max_steps,
+          args.batch_size,
+          args.layers,
+          args.heads,
+          args.embeds,
+          args.block_size)

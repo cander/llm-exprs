@@ -1,3 +1,5 @@
+# From https://github.com/angelos-p/llm-from-scratch/blob/main/docs/04-text-generation.md
+
 import torch
 
 @torch.no_grad()
